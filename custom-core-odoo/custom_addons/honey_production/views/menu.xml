@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Production submenu items -->
+    <menuitem id="menu_honey_production_batches" name="Production Batches" parent="menu_honey_production" action="action_production_batch" sequence="10"/>
+    
+    <!-- Material management submenu -->
+    <menuitem id="menu_honey_materials" name="Materials" parent="menu_honey_production" sequence="20"/>
+    <menuitem id="menu_honey_material_types" name="Material Types" parent="menu_honey_materials" action="action_material_type" sequence="10"/>
+    <menuitem id="menu_honey_material_stock" name="Material Stock" parent="menu_honey_materials" action="action_material_stock" sequence="20"/>
+    <menuitem id="menu_honey_material_movements" name="Material Movements" parent="menu_honey_materials" action="action_material_movement" sequence="30"/>
+    
+    <!-- Time tracking submenu -->
+    <menuitem id="menu_honey_time_tracking" name="Time Tracking" parent="menu_honey_production" action="action_time_tracking" sequence="30"/>
+    <menuitem id="menu_honey_shift_planning" name="Shift Planning" parent="menu_honey_production" action="action_shift_planning" sequence="40"/>
+    
+    <!-- Quality control submenu -->
+    <menuitem id="menu_honey_quality" name="Quality Control" parent="menu_honey_production" sequence="50"/>
+    <menuitem id="menu_honey_quality_control" name="QC Records" parent="menu_honey_quality" action="action_quality_control" sequence="10"/>
+    <menuitem id="menu_honey_quality_standards" name="Quality Standards" parent="menu_honey_quality" action="action_quality_standard" sequence="20"/>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_qr_generator_director,honey.qr.generator.director,model_honey_qr_generator,honey_dashboards.group_director,1,1,1,1
+access_honey_qr_generator_production,honey.qr.generator.production,model_honey_qr_generator,honey_dashboards.group_production,1,1,1,0
+access_honey_qr_generator_logistics,honey.qr.generator.logistics,model_honey_qr_generator,honey_dashboards.group_logistics,1,1,1,0

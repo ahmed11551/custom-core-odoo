@@ -31,3 +31,9 @@ flask-cors>=3.0.0
 # For testing
 pytest>=6.0.0
 pytest-odoo>=1.0.0
+
+# Railway specific
+psycopg2-binary>=2.9.0
+
+# Additional reporting
+reportlab>=3.6.0

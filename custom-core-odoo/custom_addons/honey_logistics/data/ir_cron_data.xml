@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron job to update shipment KPI metrics -->
+    <record id="ir_cron_update_shipment_kpi" model="ir.cron">
+        <field name="name">Update Shipment KPI</field>
+        <field name="model_id" ref="model_honey_shipment"/>
+        <field name="state">code</field>
+        <field name="code">model._compute_processing_time()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Cron job to process return requests -->
+    <record id="ir_cron_process_returns" model="ir.cron">
+        <field name="name">Process Return Requests</field>
+        <field name="model_id" ref="model_honey_return_request"/>
+        <field name="state">code</field>
+        <field name="code">model._process_approved_returns()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

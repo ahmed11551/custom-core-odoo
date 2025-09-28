@@ -36,6 +36,8 @@
         'honey_production',
         'honey_logistics',
         'honey_dashboards',
+        'honey_whatsapp',
+        'honey_reports',
     ],
     'data': [
         'security/ir.model.access.csv',

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Material Type Views -->
+    <record id="view_material_type_form" model="ir.ui.view">
+        <field name="name">honey.material.type.form</field>
+        <field name="model">honey.material.type</field>
+        <field name="arch" type="xml">
+            <form string="Material Type">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h2>
+                            <field name="code"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="unit_of_measure"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="standard_cost"/>
+                            <field name="last_purchase_cost"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Quality Standards" name="quality">
+                            <field name="quality_standards"/>
+                            <field name="storage_requirements"/>
+                        </page>
+                        <page string="Suppliers" name="suppliers">
+                            <field name="preferred_suppliers"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_material_type_tree" model="ir.ui.view">
+        <field name="name">honey.material.type.tree</field>
+        <field name="model">honey.material.type</field>
+        <field name="arch" type="xml">
+            <tree string="Material Types">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="unit_of_measure"/>
+                <field name="standard_cost"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_material_type" model="ir.actions.act_window">
+        <field name="name">Material Types</field>
+        <field name="res_model">honey.material.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Material Stock Views -->
+    <record id="view_material_stock_form" model="ir.ui.view">
+        <field name="name">honey.material.stock.form</field>
+        <field name="model">honey.material.stock</field>
+        <field name="arch" type="xml">
+            <form string="Material Stock">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="material_type_id"/>
+                        </h1>
+                        <h2>
+                            <field name="material_subtype"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="warehouse_id"/>
+                            <field name="location_id"/>
+                            <field name="current_stock"/>
+                        </group>
+                        <group>
+                            <field name="minimum_stock"/>
+                            <field name="maximum_stock"/>
+                            <field name="stock_status" widget="badge" decoration-success="stock_status == 'sufficient'" decoration-warning="stock_status == 'low'" decoration-danger="stock_status in ['critical', 'out_of_stock']"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="last_in_date" readonly="1"/>
+                        <field name="last_out_date" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_material_stock_tree" model="ir.ui.view">
+        <field name="name">honey.material.stock.tree</field>
+        <field name="model">honey.material.stock</field>
+        <field name="arch" type="xml">
+            <tree string="Material Stock">
+                <field name="material_type_id"/>
+                <field name="material_subtype"/>
+                <field name="warehouse_id"/>
+                <field name="current_stock"/>
+                <field name="minimum_stock"/>
+                <field name="stock_status" widget="badge" decoration-success="stock_status == 'sufficient'" decoration-warning="stock_status == 'low'" decoration-danger="stock_status in ['critical', 'out_of_stock']"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_material_stock" model="ir.actions.act_window">
+        <field name="name">Material Stock</field>
+        <field name="res_model">honey.material.stock</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Material Movement Views -->
+    <record id="view_material_movement_form" model="ir.ui.view">
+        <field name="name">honey.material.movement.form</field>
+        <field name="model">honey.material.movement</field>
+        <field name="arch" type="xml">
+            <form string="Material Movement">
+                <header>
+                    <button name="action_process_movement" type="object" string="Process Movement" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="material_type_id"/>
+                            <field name="material_subtype"/>
+                            <field name="movement_type"/>
+                            <field name="quantity"/>
+                            <field name="unit" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="from_location_id"/>
+                            <field name="to_location_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reference"/>
+                        <field name="batch_id"/>
+                        <field name="purchase_order_id"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_material_movement_tree" model="ir.ui.view">
+        <field name="name">honey.material.movement.tree</field>
+        <field name="model">honey.material.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Material Movements">
+                <field name="name"/>
+                <field name="material_type_id"/>
+                <field name="movement_type"/>
+                <field name="quantity"/>
+                <field name="date"/>
+                <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_material_movement" model="ir.actions.act_window">
+        <field name="name">Material Movements</field>
+        <field name="res_model">honey.material.movement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

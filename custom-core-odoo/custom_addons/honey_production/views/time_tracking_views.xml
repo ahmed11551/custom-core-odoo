@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Time Tracking Views -->
+    <record id="view_time_tracking_form" model="ir.ui.view">
+        <field name="name">honey.time.tracking.form</field>
+        <field name="model">honey.time.tracking</field>
+        <field name="arch" type="xml">
+            <form string="Time Tracking">
+                <header>
+                    <button name="action_start" type="object" string="Start" class="btn-primary" states="draft"/>
+                    <button name="action_stop" type="object" string="Stop" class="btn-primary" states="in_progress"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" states="completed"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" states="draft,in_progress"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="batch_id"/>
+                            <field name="employee_id"/>
+                            <field name="activity_type"/>
+                        </group>
+                        <group>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="duration" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="quantity_produced"/>
+                            <field name="quantity_rejected"/>
+                        </group>
+                        <group>
+                            <field name="approved_by" readonly="1"/>
+                            <field name="approval_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="activity_description"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_time_tracking_tree" model="ir.ui.view">
+        <field name="name">honey.time.tracking.tree</field>
+        <field name="model">honey.time.tracking</field>
+        <field name="arch" type="xml">
+            <tree string="Time Tracking">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="employee_id"/>
+                <field name="activity_type"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="duration"/>
+                <field name="quantity_produced"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'" decoration-info="state == 'in_progress'" decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_time_tracking" model="ir.actions.act_window">
+        <field name="name">Time Tracking</field>
+        <field name="res_model">honey.time.tracking</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Shift Planning Views -->
+    <record id="view_shift_planning_form" model="ir.ui.view">
+        <field name="name">honey.shift.planning.form</field>
+        <field name="model">honey.shift.planning</field>
+        <field name="arch" type="xml">
+            <form string="Shift Planning">
+                <header>
+                    <button name="action_start_shift" type="object" string="Start Shift" class="btn-primary" states="planned"/>
+                    <button name="action_complete_shift" type="object" string="Complete Shift" class="btn-primary" states="in_progress"/>
+                    <button name="action_cancel_shift" type="object" string="Cancel Shift" class="btn-secondary" states="planned,in_progress"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="shift_date"/>
+                            <field name="shift_type"/>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                        </group>
+                        <group>
+                            <field name="team_leader_id"/>
+                            <field name="target_batches"/>
+                            <field name="target_quantity"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="actual_batches" readonly="1"/>
+                            <field name="actual_quantity" readonly="1"/>
+                            <field name="efficiency" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Team Members" name="team">
+                            <field name="team_member_ids"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_shift_planning_tree" model="ir.ui.view">
+        <field name="name">honey.shift.planning.tree</field>
+        <field name="model">honey.shift.planning</field>
+        <field name="arch" type="xml">
+            <tree string="Shift Planning">
+                <field name="name"/>
+                <field name="shift_date"/>
+                <field name="shift_type"/>
+                <field name="team_leader_id"/>
+                <field name="target_quantity"/>
+                <field name="actual_quantity"/>
+                <field name="efficiency" widget="progressbar"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'" decoration-info="state == 'in_progress'" decoration-muted="state == 'planned'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_shift_planning" model="ir.actions.act_window">
+        <field name="name">Shift Planning</field>
+        <field name="res_model">honey.shift.planning</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+</odoo>

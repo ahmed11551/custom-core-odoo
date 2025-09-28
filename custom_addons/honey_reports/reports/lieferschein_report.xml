@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="lieferschein_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="shipment">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>🍯 LIEFERSCHEIN</h2>
+                            <p><strong>Lieferdatum:</strong> <span t-field="shipment.shipment_date"/></p>
+                            <p><strong>Lieferschein-Nr:</strong> <span t-field="shipment.name"/></p>
+                            <p><strong>Tracking-Nr:</strong> <span t-field="shipment.tracking_number"/></p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <div class="qr_code">
+                                <img t-att-src="shipment.qr_image" style="width: 120px; height: 120px;"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr/>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Lieferadresse:</h4>
+                            <p>
+                                <span t-field="shipment.customer_id.name"/><br/>
+                                <span t-field="shipment.customer_id.street"/><br/>
+                                <span t-field="shipment.customer_id.street2"/><br/>
+                                <span t-field="shipment.customer_id.zip"/> <span t-field="shipment.customer_id.city"/><br/>
+                                <span t-field="shipment.customer_id.country_id.name"/>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <h4>Absender:</h4>
+                            <p>
+                                Honey Sticks Company<br/>
+                                Produktionsstraße 123<br/>
+                                12345 Honigstadt<br/>
+                                Deutschland
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr/>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Gelieferte Artikel:</h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Partie</th>
+                                        <th>Honig Sorte</th>
+                                        <th>Anzahl Sticks</th>
+                                        <th>Gewicht (kg)</th>
+                                        <th>Haltbarkeit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="shipment.packaging_ids" t-as="package">
+                                        <td><span t-field="package.batch_id.name"/></td>
+                                        <td><span t-field="package.honey_type"/></td>
+                                        <td class="text-right"><span t-field="package.sticks_count"/></td>
+                                        <td class="text-right"><span t-field="package.weight"/></td>
+                                        <td><span t-field="package.expiry_date"/></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="2">Gesamt:</th>
+                                        <th class="text-right"><span t-esc="sum(package.sticks_count for package in shipment.packaging_ids)"/></th>
+                                        <th class="text-right"><span t-esc="sum(package.weight for package in shipment.packaging_ids)"/></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <hr/>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Qualitätskontrolle:</h4>
+                            <p>✓ HACCP-konforme Produktion</p>
+                            <p>✓ Qualitätskontrolle durchgeführt</p>
+                            <p>✓ Temperaturkontrolle dokumentiert</p>
+                            <p>✓ Verpackung intakt</p>
+                        </div>
+                    </div>
+                    
+                    <hr/>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Unterschrift Empfänger:</strong></p>
+                            <p>_________________________</p>
+                            <p>Datum: _______________</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Unterschrift Fahrer:</strong></p>
+                            <p>_________________________</p>
+                            <p>Datum: _______________</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p><em>Vielen Dank für Ihr Vertrauen in unsere Honigstäbchen! 🍯</em></p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_lieferschein_report" model="ir.actions.report">
+        <field name="name">Lieferschein</field>
+        <field name="model">honey.shipment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">honey_reports.lieferschein_report</field>
+        <field name="report_file">honey_reports.lieferschein_report</field>
+        <field name="binding_model_id" ref="honey_logistics.model_honey_shipment"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

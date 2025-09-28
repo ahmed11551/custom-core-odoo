@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_whatsapp_message_director,honey.whatsapp.message.director,model_honey_whatsapp_message,honey_dashboards.group_director,1,1,1,1
+access_honey_whatsapp_message_manager,honey.whatsapp.message.manager,model_honey_whatsapp_message,honey_dashboards.group_sales_manager,1,1,1,0
+access_honey_whatsapp_message_agent,honey.whatsapp.message.agent,model_honey_whatsapp_message,honey_dashboards.group_sales_agent,1,1,1,0
+access_honey_whatsapp_template_director,honey.whatsapp.template.director,model_honey_whatsapp_template,honey_dashboards.group_director,1,1,1,1
+access_honey_whatsapp_template_manager,honey.whatsapp.template.manager,model_honey_whatsapp_template,honey_dashboards.group_sales_manager,1,1,1,0

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sales submenu items -->
+    <menuitem id="menu_honey_sales_orders" name="Sales Orders" parent="menu_honey_sales" action="action_honey_sales" sequence="10"/>
+    
+    <!-- Commission submenu items -->
+    <menuitem id="menu_honey_sales_commissions" name="Commissions" parent="menu_honey_sales" action="honey_participants.action_commission" sequence="20"/>
+    <menuitem id="menu_honey_sales_commission_rules" name="Commission Rules" parent="menu_honey_sales" action="honey_participants.action_commission_rule" sequence="30"/>
+    <menuitem id="menu_honey_sales_commission_report" name="Commission Report" parent="menu_honey_sales" action="action_commission_report" sequence="40"/>
+</odoo>

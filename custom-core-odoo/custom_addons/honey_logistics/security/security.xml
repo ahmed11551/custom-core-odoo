@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Logistics specific groups are already defined in honey_participants -->
+    
+    <!-- Record Rules for Shipments -->
+    <record id="shipment_rule_director" model="ir.rule">
+        <field name="name">Honey Shipment: Director Access</field>
+        <field name="model_id" ref="model_honey_shipment"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="shipment_rule_logistics" model="ir.rule">
+        <field name="name">Honey Shipment: Logistics Access</field>
+        <field name="model_id" ref="model_honey_shipment"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_logistics'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Record Rules for QR Confirmations -->
+    <record id="qr_confirmation_rule_director" model="ir.rule">
+        <field name="name">Honey QR Confirmation: Director Access</field>
+        <field name="model_id" ref="model_honey_qr_confirmation"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="qr_confirmation_rule_logistics" model="ir.rule">
+        <field name="name">Honey QR Confirmation: Logistics Access</field>
+        <field name="model_id" ref="model_honey_qr_confirmation"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_logistics'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Record Rules for Return Requests -->
+    <record id="return_request_rule_director" model="ir.rule">
+        <field name="name">Honey Return Request: Director Access</field>
+        <field name="model_id" ref="model_honey_return_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="return_request_rule_logistics" model="ir.rule">
+        <field name="name">Honey Return Request: Logistics Access</field>
+        <field name="model_id" ref="model_honey_return_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_logistics'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

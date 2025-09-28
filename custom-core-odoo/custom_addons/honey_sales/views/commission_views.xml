@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Commission Report Views -->
+    <record id="view_commission_report_tree" model="ir.ui.view">
+        <field name="name">honey.commission.report.tree</field>
+        <field name="model">honey.commission.report</field>
+        <field name="arch" type="xml">
+            <tree string="Commission Report">
+                <field name="agent_id"/>
+                <field name="region_id"/>
+                <field name="date"/>
+                <field name="month"/>
+                <field name="year"/>
+                <field name="total_commission"/>
+                <field name="total_orders"/>
+                <field name="total_amount"/>
+                <field name="average_commission"/>
+                <field name="performance_bonus"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_commission_report_search" model="ir.ui.view">
+        <field name="name">honey.commission.report.search</field>
+        <field name="model">honey.commission.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Commission Report">
+                <field name="agent_id"/>
+                <field name="region_id"/>
+                <field name="month"/>
+                <field name="year"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Region" name="group_region" context="{'group_by': 'region_id'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'month'}"/>
+                    <filter string="Year" name="group_year" context="{'group_by': 'year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_commission_report" model="ir.actions.act_window">
+        <field name="name">Commission Report</field>
+        <field name="res_model">honey.commission.report</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_commission_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No commission data found!
+            </p>
+            <p>
+                Commission reports show aggregated commission data by agent, region, and time period.
+            </p>
+        </field>
+    </record>
+
+    <!-- Graph view for commission trends -->
+    <record id="view_commission_report_graph" model="ir.ui.view">
+        <field name="name">honey.commission.report.graph</field>
+        <field name="model">honey.commission.report</field>
+        <field name="arch" type="xml">
+            <graph string="Commission Trends" type="line">
+                <field name="month"/>
+                <field name="total_commission" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot view for commission analysis -->
+    <record id="view_commission_report_pivot" model="ir.ui.view">
+        <field name="name">honey.commission.report.pivot</field>
+        <field name="model">honey.commission.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Commission Analysis">
+                <field name="agent_id" type="row"/>
+                <field name="month" type="col"/>
+                <field name="total_commission" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

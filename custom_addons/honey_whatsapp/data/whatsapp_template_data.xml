@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Order Confirmation Template -->
+        <record id="whatsapp_template_order_confirmation" model="honey.whatsapp.template">
+            <field name="name">Order Confirmation</field>
+            <field name="template_type">order_confirmation</field>
+            <field name="template_text">🍯 *Подтверждение заказа*
+
+Здравствуйте, {partner_name}!
+
+Ваш заказ #{order_number} принят в обработку.
+
+Дата заказа: {date}
+Сумма: {amount} руб.
+
+Спасибо за выбор наших мёдовых стиков! 🍯
+
+С уважением,
+Команда Honey Sticks</field>
+            <field name="is_active">True</field>
+        </record>
+
+        <!-- Shipment Ready Template -->
+        <record id="whatsapp_template_shipment_ready" model="honey.whatsapp.template">
+            <field name="name">Shipment Ready</field>
+            <field name="template_type">shipment_ready</field>
+            <field name="template_text">📦 *Отгрузка готова*
+
+Здравствуйте, {partner_name}!
+
+Ваша отгрузка #{shipment_number} готова к отправке.
+
+Дата отгрузки: {date}
+Количество коробок: {boxes_count}
+
+Трек-номер: {tracking_number}
+
+Спасибо за сотрудничество! 🍯
+
+С уважением,
+Команда Honey Sticks</field>
+            <field name="is_active">True</field>
+        </record>
+
+        <!-- Shipment Sent Template -->
+        <record id="whatsapp_template_shipment_sent" model="honey.whatsapp.template">
+            <field name="name">Shipment Sent</field>
+            <field name="template_type">shipment_sent</field>
+            <field name="template_text">🚚 *Отгрузка отправлена*
+
+Здравствуйте, {partner_name}!
+
+Ваша отгрузка #{shipment_number} отправлена.
+
+Трек-номер: {tracking_number}
+Ожидаемая доставка: {delivery_date}
+
+Спасибо за сотрудничество! 🍯
+
+С уважением,
+Команда Honey Sticks</field>
+            <field name="is_active">True</field>
+        </record>
+
+        <!-- Payment Reminder Template -->
+        <record id="whatsapp_template_payment_reminder" model="honey.whatsapp.template">
+            <field name="name">Payment Reminder</field>
+            <field name="template_type">payment_reminder</field>
+            <field name="template_text">💰 *Напоминание об оплате*
+
+Здравствуйте, {partner_name}!
+
+Напоминаем об оплате заказа #{order_number}.
+
+Сумма к оплате: {amount} руб.
+Срок оплаты: {payment_due_date}
+
+Спасибо за своевременную оплату! 🍯
+
+С уважением,
+Команда Honey Sticks</field>
+            <field name="is_active">True</field>
+        </record>
+    </data>
+</odoo>

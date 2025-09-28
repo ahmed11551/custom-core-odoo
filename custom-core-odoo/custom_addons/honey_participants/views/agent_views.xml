@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_agent_form" model="ir.ui.view">
+        <field name="name">honey.agent.form</field>
+        <field name="model">honey.agent</field>
+        <field name="arch" type="xml">
+            <form string="Agent">
+                <header>
+                    <button name="action_view_customers" type="object" string="View Customers" class="btn-primary"/>
+                    <button name="action_view_commissions" type="object" string="View Commissions" class="btn-secondary"/>
+                    <field name="active" widget="statusbar" statusbar_visible="active"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Agent Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="region_id"/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group>
+                            <field name="phone" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                            <field name="mobile" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="monthly_target"/>
+                            <field name="commission_rate"/>
+                        </group>
+                        <group>
+                            <field name="current_month_sales" readonly="1"/>
+                            <field name="target_achievement" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Performance" name="performance">
+                            <group>
+                                <group>
+                                    <field name="customer_count" readonly="1"/>
+                                    <field name="last_activity_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="total_commission" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Customers" name="customers">
+                            <field name="customer_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="honey_customer_type"/>
+                                    <field name="honey_status"/>
+                                    <field name="last_contact_date"/>
+                                    <field name="next_contact_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Commissions" name="commissions">
+                            <field name="commission_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="customer_id"/>
+                                    <field name="base_amount"/>
+                                    <field name="commission_rate"/>
+                                    <field name="amount"/>
+                                    <field name="state"/>
+                                    <field name="date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_agent_tree" model="ir.ui.view">
+        <field name="name">honey.agent.tree</field>
+        <field name="model">honey.agent</field>
+        <field name="arch" type="xml">
+            <tree string="Agents">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="region_id"/>
+                <field name="monthly_target"/>
+                <field name="current_month_sales"/>
+                <field name="target_achievement" widget="progressbar"/>
+                <field name="commission_rate"/>
+                <field name="customer_count" widget="badge" decoration-info="customer_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_agent_search" model="ir.ui.view">
+        <field name="name">honey.agent.search</field>
+        <field name="model">honey.agent</field>
+        <field name="arch" type="xml">
+            <search string="Search Agents">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="region_id"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Above Target" name="above_target" domain="[('target_achievement', '>=', 100)]"/>
+                <filter string="Below Target" name="below_target" domain="[('target_achievement', '&lt;', 100)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Region" name="group_region" context="{'group_by': 'region_id'}"/>
+                    <filter string="Manager" name="group_manager" context="{'group_by': 'region_id.manager_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_agent" model="ir.actions.act_window">
+        <field name="name">Sales Agents</field>
+        <field name="res_model">honey.agent</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_agent_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first sales agent!
+            </p>
+            <p>
+                Sales agents are responsible for managing customers in their assigned regions.
+            </p>
+        </field>
+    </record>
+
+    <!-- Kanban view for agents -->
+    <record id="view_agent_kanban" model="ir.ui.view">
+        <field name="name">honey.agent.kanban</field>
+        <field name="model">honey.agent</field>
+        <field name="arch" type="xml">
+            <kanban string="Agents">
+                <field name="name"/>
+                <field name="region_id"/>
+                <field name="monthly_target"/>
+                <field name="current_month_sales"/>
+                <field name="target_achievement"/>
+                <field name="customer_count"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <div class="o_kanban_record_subtitle">
+                                            <field name="region_id"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <span>Target: <field name="monthly_target"/></span>
+                                            <br/>
+                                            <span>Sales: <field name="current_month_sales"/></span>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <span>Customers: <field name="customer_count"/></span>
+                                            <br/>
+                                            <span>Achievement: <field name="target_achievement"/>%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

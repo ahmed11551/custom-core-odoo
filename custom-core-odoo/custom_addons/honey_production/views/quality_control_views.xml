@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Quality Control Views -->
+    <record id="view_quality_control_form" model="ir.ui.view">
+        <field name="name">honey.quality.control.form</field>
+        <field name="model">honey.quality.control</field>
+        <field name="arch" type="xml">
+            <form string="Quality Control">
+                <header>
+                    <button name="action_start_qc" type="object" string="Start QC" class="btn-primary" states="draft"/>
+                    <button name="action_complete_qc" type="object" string="Complete QC" class="btn-primary" states="in_progress"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" states="completed"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-secondary" states="completed,approved"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="batch_id"/>
+                            <field name="qc_type"/>
+                            <field name="qc_date"/>
+                        </group>
+                        <group>
+                            <field name="inspector_id"/>
+                            <field name="qc_supervisor_id"/>
+                            <field name="overall_result" widget="badge" decoration-success="overall_result == 'pass'" decoration-danger="overall_result == 'fail'" decoration-warning="overall_result == 'conditional'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="sample_size"/>
+                            <field name="sample_method"/>
+                        </group>
+                        <group>
+                            <field name="approved_by" readonly="1"/>
+                            <field name="approval_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Test Results" name="test_results">
+                            <field name="test_results_ids">
+                                <tree>
+                                    <field name="test_name"/>
+                                    <field name="parameter_name"/>
+                                    <field name="target_value"/>
+                                    <field name="actual_value"/>
+                                    <field name="unit"/>
+                                    <field name="result" widget="badge" decoration-success="result == 'pass'" decoration-danger="result == 'fail'" decoration-warning="result == 'conditional'"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                            <field name="recommendations"/>
+                            <field name="corrective_actions"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_quality_control_tree" model="ir.ui.view">
+        <field name="name">honey.quality.control.tree</field>
+        <field name="model">honey.quality.control</field>
+        <field name="arch" type="xml">
+            <tree string="Quality Control">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="qc_type"/>
+                <field name="inspector_id"/>
+                <field name="qc_date"/>
+                <field name="overall_result" widget="badge" decoration-success="overall_result == 'pass'" decoration-danger="overall_result == 'fail'" decoration-warning="overall_result == 'conditional'"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'completed'" decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_quality_control" model="ir.actions.act_window">
+        <field name="name">Quality Control</field>
+        <field name="res_model">honey.quality.control</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Quality Standards Views -->
+    <record id="view_quality_standard_form" model="ir.ui.view">
+        <field name="name">honey.quality.standard.form</field>
+        <field name="model">honey.quality.standard</field>
+        <field name="arch" type="xml">
+            <form string="Quality Standard">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="honey_type"/>
+                            <field name="quality_grade"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="effective_date"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Test Parameters" name="parameters">
+                            <field name="test_parameters_ids">
+                                <tree>
+                                    <field name="parameter_name"/>
+                                    <field name="unit"/>
+                                    <field name="target_value"/>
+                                    <field name="min_value"/>
+                                    <field name="max_value"/>
+                                    <field name="test_frequency"/>
+                                    <field name="is_critical"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_quality_standard_tree" model="ir.ui.view">
+        <field name="name">honey.quality.standard.tree</field>
+        <field name="model">honey.quality.standard</field>
+        <field name="arch" type="xml">
+            <tree string="Quality Standards">
+                <field name="name"/>
+                <field name="honey_type"/>
+                <field name="quality_grade"/>
+                <field name="effective_date"/>
+                <field name="expiry_date"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_quality_standard" model="ir.actions.act_window">
+        <field name="name">Quality Standards</field>
+        <field name="res_model">honey.quality.standard</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

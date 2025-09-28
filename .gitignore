@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# Odoo
+*.log
+*.pot
+*.mo
+.installed.cfg
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite3
+
+# Odoo specific
+filestore/
+sessions/
+addons/odoo/
+addons/enterprise/
+addons/theme-*
+addons/website-*
+addons/point_of_sale/
+addons/account_*
+addons/sale_*
+addons/purchase_*
+addons/stock_*
+addons/mrp_*
+addons/hr_*
+addons/mail_*
+addons/website_*
+addons/portal_*
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/

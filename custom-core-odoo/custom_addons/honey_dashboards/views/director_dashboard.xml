@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_director_dashboard" model="ir.ui.view">
+        <field name="name">Director Executive Dashboard</field>
+        <field name="model">honey.dashboard.data</field>
+        <field name="arch" type="xml">
+            <dashboard string="Director Dashboard">
+                <view type="grid" colspan="12">
+                    <!-- Key Metrics Tiles -->
+                    <group>
+                        <group>
+                            <aggregate name="monthly_sales" string="Monthly Sales" field="amount_total" domain="[('date_order', '>=', datetime.datetime.now().strftime('%Y-%m-01')), ('state', 'in', ['sale', 'done'])]" widget="monetary"/>
+                            <aggregate name="today_shipments" string="Today Shipments" field="id" domain="[('shipment_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d')), ('shipment_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]" widget="number"/>
+                        </group>
+                        <group>
+                            <aggregate name="monthly_commissions" string="Monthly Commissions" field="amount" domain="[('date', '>=', datetime.datetime.now().strftime('%Y-%m-01')), ('state', 'in', ['confirmed', 'paid'])]" widget="monetary"/>
+                            <aggregate name="qr_confirmed" string="QR Confirmed" field="id" domain="[('qr_confirmed', '=', True)]" widget="number"/>
+                        </group>
+                    </group>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="sales_by_region" widget="bar" string="Sales by Region"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="agent_ranking" widget="bar" string="Agent Ranking"/>
+                </view>
+                
+                <view type="pivot" colspan="12">
+                    <field name="timeline_conflicts" string="Timeline Conflicts"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="production_readiness" string="Production Readiness"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="logistics_status" string="Logistics Status"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="financial_flow" widget="line" string="Financial Flow"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="marketing_metrics" widget="bar" string="Marketing Metrics"/>
+                </view>
+                
+                <view type="list" colspan="12">
+                    <field name="notifications" string="Notifications &amp; Approvals"/>
+                </view>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="action_director_dashboard" model="ir.actions.act_window">
+        <field name="name">Director Dashboard</field>
+        <field name="res_model">honey.dashboard.data</field>
+        <field name="view_mode">dashboard</field>
+        <field name="view_id" ref="view_director_dashboard"/>
+        <field name="target">current</field>
+        <field name="context">{'dashboard_data': True}</field>
+    </record>
+</odoo>

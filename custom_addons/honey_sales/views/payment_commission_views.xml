@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment Commission Tree View -->
+    <record id="view_payment_commission_tree" model="ir.ui.view">
+        <field name="name">honey.payment.commission.tree</field>
+        <field name="model">honey.payment.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Commissions">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="manager_id"/>
+                <field name="agent_id"/>
+                <field name="order_amount"/>
+                <field name="commission_amount"/>
+                <field name="payment_confirmed"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Payment Commission Form View -->
+    <record id="view_payment_commission_form" model="ir.ui.view">
+        <field name="name">honey.payment.commission.form</field>
+        <field name="model">honey.payment.commission</field>
+        <field name="arch" type="xml">
+            <form string="Payment Commission">
+                <header>
+                    <button name="action_confirm_payment" string="Confirm Payment" type="object" 
+                            states="draft,pending_payment" class="btn-primary" 
+                            groups="honey_dashboards.group_director"/>
+                    <button name="action_confirm" string="Confirm Commission" type="object" 
+                            states="draft" class="btn-primary"/>
+                    <button name="action_pay" string="Mark as Paid" type="object" 
+                            states="confirmed" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending_payment,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sale_order_id"/>
+                            <field name="partner_id"/>
+                            <field name="commission_date"/>
+                        </group>
+                        <group>
+                            <field name="manager_id"/>
+                            <field name="agent_id"/>
+                            <field name="commission_rate"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group>
+                            <field name="order_amount"/>
+                            <field name="commission_amount"/>
+                        </group>
+                        <group>
+                            <field name="payment_confirmed"/>
+                            <field name="payment_date"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Payment Information" attrs="{'invisible': [('payment_confirmed', '=', False)]}">
+                        <group>
+                            <field name="payment_amount"/>
+                            <field name="payment_reference"/>
+                        </group>
+                        <group>
+                            <field name="payment_method"/>
+                            <field name="payment_confirmation_date"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Payment Commission Search View -->
+    <record id="view_payment_commission_search" model="ir.ui.view">
+        <field name="name">honey.payment.commission.search</field>
+        <field name="model">honey.payment.commission</field>
+        <field name="arch" type="xml">
+            <search string="Search Payment Commissions">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="manager_id"/>
+                <field name="agent_id"/>
+                <field name="sale_order_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Pending Payment" name="pending_payment" domain="[('state', '=', 'pending_payment')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]"/>
+                <filter string="Payment Confirmed" name="payment_confirmed" domain="[('payment_confirmed', '=', True)]"/>
+                <filter string="Payment Pending" name="payment_pending" domain="[('payment_confirmed', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Manager" name="group_manager" context="{'group_by': 'manager_id'}"/>
+                    <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'commission_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Payment Commission Action -->
+    <record id="action_payment_commission" model="ir.actions.act_window">
+        <field name="name">Payment Commissions</field>
+        <field name="res_model">honey.payment.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_payment_commission_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No payment commissions yet!
+            </p>
+            <p>
+                Payment commissions are created automatically when sales orders are confirmed.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_payment_commission" 
+              name="Payment Commissions" 
+              parent="honey_sales.menu_sales" 
+              action="action_payment_commission" 
+              sequence="20"/>
+</odoo>

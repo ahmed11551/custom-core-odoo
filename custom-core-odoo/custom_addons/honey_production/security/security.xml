@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Production specific groups are already defined in honey_participants -->
+    
+    <!-- Record Rules for Production Batches -->
+    <record id="production_batch_rule_director" model="ir.rule">
+        <field name="name">Honey Production Batch: Director Access</field>
+        <field name="model_id" ref="model_honey_production_batch"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="production_batch_rule_production" model="ir.rule">
+        <field name="name">Honey Production Batch: Production Access</field>
+        <field name="model_id" ref="model_honey_production_batch"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_production'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Record Rules for Time Tracking -->
+    <record id="time_tracking_rule_director" model="ir.rule">
+        <field name="name">Honey Time Tracking: Director Access</field>
+        <field name="model_id" ref="model_honey_time_tracking"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="time_tracking_rule_production" model="ir.rule">
+        <field name="name">Honey Time Tracking: Production Access</field>
+        <field name="model_id" ref="model_honey_time_tracking"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_production'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Record Rules for Quality Control -->
+    <record id="quality_control_rule_director" model="ir.rule">
+        <field name="name">Honey Quality Control: Director Access</field>
+        <field name="model_id" ref="model_honey_quality_control"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="quality_control_rule_production" model="ir.rule">
+        <field name="name">Honey Quality Control: Production Access</field>
+        <field name="model_id" ref="model_honey_quality_control"/>
+        <field name="domain_force">[('inspector_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_production'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

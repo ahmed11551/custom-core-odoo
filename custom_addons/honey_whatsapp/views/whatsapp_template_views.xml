@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WhatsApp Template Tree View -->
+    <record id="view_whatsapp_template_tree" model="ir.ui.view">
+        <field name="name">honey.whatsapp.template.tree</field>
+        <field name="model">honey.whatsapp.template</field>
+        <field name="arch" type="xml">
+            <tree string="WhatsApp Templates">
+                <field name="name"/>
+                <field name="template_type"/>
+                <field name="is_active"/>
+                <field name="template_text" decoration-muted="len(template_text) > 100"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- WhatsApp Template Form View -->
+    <record id="view_whatsapp_template_form" model="ir.ui.view">
+        <field name="name">honey.whatsapp.template.form</field>
+        <field name="model">honey.whatsapp.template</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Template">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="template_type"/>
+                            <field name="is_active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="template_text" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- WhatsApp Template Search View -->
+    <record id="view_whatsapp_template_search" model="ir.ui.view">
+        <field name="name">honey.whatsapp.template.search</field>
+        <field name="model">honey.whatsapp.template</field>
+        <field name="arch" type="xml">
+            <search string="Search WhatsApp Templates">
+                <field name="name"/>
+                <field name="template_type"/>
+                <filter string="Active" name="active" domain="[('is_active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('is_active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Template Type" name="group_type" context="{'group_by': 'template_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- WhatsApp Template Action -->
+    <record id="action_whatsapp_template" model="ir.actions.act_window">
+        <field name="name">WhatsApp Templates</field>
+        <field name="res_model">honey.whatsapp.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_template_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first WhatsApp template!
+            </p>
+            <p>
+                Templates help you send consistent messages to customers.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_whatsapp_templates" 
+              name="Templates" 
+              parent="honey_whatsapp.menu_whatsapp" 
+              action="action_whatsapp_template" 
+              sequence="20"/>
+</odoo>

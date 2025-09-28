@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_production_dashboard" model="ir.ui.view">
+        <field name="name">Production Dashboard</field>
+        <field name="model">honey.dashboard.data</field>
+        <field name="arch" type="xml">
+            <dashboard string="Production Dashboard">
+                <view type="grid" colspan="12">
+                    <!-- Production Overview -->
+                    <group>
+                        <group>
+                            <aggregate name="today_batches" string="Today's Batches" field="id" domain="[('planned_start_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d')), ('planned_start_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]" widget="number"/>
+                            <aggregate name="week_batches" string="Week's Batches" field="id" domain="[('planned_start_date', '>=', (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).strftime('%Y-%m-%d')), ('planned_start_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=7-datetime.datetime.now().weekday())).strftime('%Y-%m-%d'))]" widget="number"/>
+                        </group>
+                        <group>
+                            <aggregate name="in_progress" string="In Progress" field="id" domain="[('state', '=', 'in_progress')]" widget="number"/>
+                            <aggregate name="completed_today" string="Completed Today" field="id" domain="[('state', '=', 'completed'), ('actual_end_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d')), ('actual_end_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]" widget="number"/>
+                        </group>
+                    </group>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="material_availability" widget="pie" string="Material Availability"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="production_timeline" widget="gantt" string="Production Timeline"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="shift_checklists" string="Shift Checklists"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="time_tracking" string="Time Tracking"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="plan_vs_actual" widget="bar" string="Plan vs Actual"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="quality_control" string="Quality Control"/>
+                </view>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="action_production_dashboard" model="ir.actions.act_window">
+        <field name="name">Production Dashboard</field>
+        <field name="res_model">honey.dashboard.data</field>
+        <field name="view_mode">dashboard</field>
+        <field name="view_id" ref="view_production_dashboard"/>
+        <field name="target">current</field>
+        <field name="context">{'dashboard_data': True}</field>
+    </record>
+</odoo>

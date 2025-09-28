@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_honey_commission_report_director,honey.commission.report.director,model_honey_commission_report,group_honey_director,1,0,0,0
-access_honey_commission_report_manager,honey.commission.report.manager,model_honey_commission_report,group_honey_manager,1,0,0,0
-access_honey_commission_report_agent,honey.commission.report.agent,model_honey_commission_report,group_honey_agent,1,0,0,0
+access_honey_payment_commission_director,honey.payment.commission.director,model_honey_payment_commission,honey_dashboards.group_director,1,1,1,1
+access_honey_payment_commission_manager,honey.payment.commission.manager,model_honey_payment_commission,honey_dashboards.group_sales_manager,1,1,1,0
+access_honey_payment_commission_agent,honey.payment.commission.agent,model_honey_payment_commission,honey_dashboards.group_sales_agent,1,1,1,0

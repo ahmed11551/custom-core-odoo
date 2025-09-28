@@ -31,6 +31,7 @@
         'data/ir_sequence_data.xml',
         'views/sale_order_views.xml',
         'views/commission_views.xml',
+        'views/payment_commission_views.xml',
         'views/menu.xml',
     ],
     'demo': [],

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Logistics submenu items -->
+    <menuitem id="menu_honey_shipments" name="Shipments" parent="menu_honey_logistics" action="action_shipment" sequence="10"/>
+    
+    <!-- Packaging submenu -->
+    <menuitem id="menu_honey_packaging" name="Packaging" parent="menu_honey_logistics" action="action_packaging" sequence="20"/>
+    
+    <!-- QR Confirmation submenu -->
+    <menuitem id="menu_honey_qr_confirmations" name="QR Confirmations" parent="menu_honey_logistics" action="action_qr_confirmation" sequence="30"/>
+    <menuitem id="menu_honey_qr_scanners" name="QR Scanners" parent="menu_honey_logistics" action="action_qr_scanner" sequence="40"/>
+    <menuitem id="menu_honey_qr_reports" name="QR Reports" parent="menu_honey_logistics" action="action_qr_report" sequence="50"/>
+    
+    <!-- Returns submenu -->
+    <menuitem id="menu_honey_returns" name="Returns" parent="menu_honey_logistics" action="action_return_request" sequence="60"/>
+    <menuitem id="menu_honey_return_policies" name="Return Policies" parent="menu_honey_logistics" action="action_return_policy" sequence="70"/>
+</odoo>
