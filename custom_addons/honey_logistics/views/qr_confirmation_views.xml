@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_confirmation_form" model="ir.ui.view">
+        <field name="name">honey.qr.confirmation.form</field>
+        <field name="model">honey.qr.confirmation</field>
+        <field name="arch" type="xml">
+            <form string="QR Confirmation">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary" states="draft"/>
+                    <button name="action_verify" type="object" string="Verify" class="btn-primary" states="confirmed"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" states="draft,confirmed"/>
+                    <button name="action_generate_qr" type="object" string="Generate QR" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,verified"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="shipment_id"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="confirmation_type"/>
+                            <field name="confirmed_by"/>
+                            <field name="confirmation_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="confirmation_location"/>
+                            <field name="gps_coordinates"/>
+                        </group>
+                        <group>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="verification_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="QR Code" name="qr_code">
+                            <group>
+                                <group>
+                                    <field name="qr_code" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="qr_image" widget="image" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Attachments" name="attachments">
+                            <field name="confirmation_photo" widget="image"/>
+                            <field name="attachment_ids"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="verification_notes"/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_qr_confirmation_tree" model="ir.ui.view">
+        <field name="name">honey.qr.confirmation.tree</field>
+        <field name="model">honey.qr.confirmation</field>
+        <field name="arch" type="xml">
+            <tree string="QR Confirmations">
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="customer_id"/>
+                <field name="confirmation_type"/>
+                <field name="confirmed_by"/>
+                <field name="confirmation_date"/>
+                <field name="state" widget="badge" decoration-success="state == 'verified'" decoration-info="state == 'confirmed'" decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_qr_confirmation_search" model="ir.ui.view">
+        <field name="name">honey.qr.confirmation.search</field>
+        <field name="model">honey.qr.confirmation</field>
+        <field name="arch" type="xml">
+            <search string="Search QR Confirmations">
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="customer_id"/>
+                <field name="confirmation_type"/>
+                <field name="confirmed_by"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Verified" name="verified" domain="[('state', '=', 'verified')]"/>
+                <filter string="Today" name="today" domain="[('confirmation_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Confirmation Type" name="group_type" context="{'group_by': 'confirmation_type'}"/>
+                    <filter string="Confirmed By" name="group_confirmed_by" context="{'group_by': 'confirmed_by'}"/>
+                    <filter string="Confirmation Date" name="group_date" context="{'group_by': 'confirmation_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_qr_confirmation" model="ir.actions.act_window">
+        <field name="name">QR Confirmations</field>
+        <field name="res_model">honey.qr.confirmation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_qr_confirmation_search"/>
+    </record>
+
+    <!-- QR Scanner Views -->
+    <record id="view_qr_scanner_form" model="ir.ui.view">
+        <field name="name">honey.qr.scanner.form</field>
+        <field name="model">honey.qr.scanner</field>
+        <field name="arch" type="xml">
+            <form string="QR Scanner">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="scanner_type"/>
+                            <field name="location"/>
+                            <field name="assigned_user_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Statistics" name="statistics">
+                            <group>
+                                <group>
+                                    <field name="total_scans" readonly="1"/>
+                                    <field name="successful_scans" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="last_scan_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_qr_scanner_tree" model="ir.ui.view">
+        <field name="name">honey.qr.scanner.tree</field>
+        <field name="model">honey.qr.scanner</field>
+        <field name="arch" type="xml">
+            <tree string="QR Scanners">
+                <field name="name"/>
+                <field name="scanner_type"/>
+                <field name="location"/>
+                <field name="assigned_user_id"/>
+                <field name="total_scans"/>
+                <field name="successful_scans"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_qr_scanner" model="ir.actions.act_window">
+        <field name="name">QR Scanners</field>
+        <field name="res_model">honey.qr.scanner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- QR Report Views -->
+    <record id="view_qr_report_tree" model="ir.ui.view">
+        <field name="name">honey.qr.report.tree</field>
+        <field name="model">honey.qr.report</field>
+        <field name="arch" type="xml">
+            <tree string="QR Report">
+                <field name="confirmation_date"/>
+                <field name="month"/>
+                <field name="year"/>
+                <field name="region_id"/>
+                <field name="agent_id"/>
+                <field name="confirmation_type"/>
+                <field name="total_confirmations"/>
+                <field name="successful_confirmations"/>
+                <field name="success_rate"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_qr_report_search" model="ir.ui.view">
+        <field name="name">honey.qr.report.search</field>
+        <field name="model">honey.qr.report</field>
+        <field name="arch" type="xml">
+            <search string="Search QR Report">
+                <field name="region_id"/>
+                <field name="agent_id"/>
+                <field name="confirmation_type"/>
+                <field name="month"/>
+                <field name="year"/>
+                <group expand="0" string="Group By">
+                    <filter string="Region" name="group_region" context="{'group_by': 'region_id'}"/>
+                    <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Confirmation Type" name="group_type" context="{'group_by': 'confirmation_type'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_qr_report" model="ir.actions.act_window">
+        <field name="name">QR Report</field>
+        <field name="res_model">honey.qr.report</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_qr_report_search"/>
+    </record>
+</odoo>

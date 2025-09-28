@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_commission_form" model="ir.ui.view">
+        <field name="name">honey.commission.form</field>
+        <field name="model">honey.commission</field>
+        <field name="arch" type="xml">
+            <form string="Commission">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary" states="draft"/>
+                    <button name="action_pay" type="object" string="Pay" class="btn-primary" states="confirmed"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" states="draft,confirmed"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="agent_id"/>
+                            <field name="region_id" readonly="1"/>
+                            <field name="sale_order_id"/>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="payment_date" readonly="1"/>
+                            <field name="qr_confirmed" readonly="1"/>
+                            <field name="qr_confirmation_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="base_amount"/>
+                            <field name="commission_rate"/>
+                            <field name="amount" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="return_amount"/>
+                            <field name="adjusted_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_commission_tree" model="ir.ui.view">
+        <field name="name">honey.commission.tree</field>
+        <field name="model">honey.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions">
+                <field name="name"/>
+                <field name="agent_id"/>
+                <field name="region_id"/>
+                <field name="sale_order_id"/>
+                <field name="customer_id"/>
+                <field name="base_amount"/>
+                <field name="commission_rate"/>
+                <field name="amount"/>
+                <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state == 'confirmed'" decoration-muted="state == 'draft'"/>
+                <field name="date"/>
+                <field name="qr_confirmed" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_commission_search" model="ir.ui.view">
+        <field name="name">honey.commission.search</field>
+        <field name="model">honey.commission</field>
+        <field name="arch" type="xml">
+            <search string="Search Commissions">
+                <field name="name"/>
+                <field name="agent_id"/>
+                <field name="region_id"/>
+                <field name="customer_id"/>
+                <field name="sale_order_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <filter string="QR Confirmed" name="qr_confirmed" domain="[('qr_confirmed', '=', True)]"/>
+                <filter string="This Month" name="this_month" domain="[('date', '>=', datetime.datetime.now().strftime('%Y-%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Region" name="group_region" context="{'group_by': 'region_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_commission" model="ir.actions.act_window">
+        <field name="name">Commissions</field>
+        <field name="res_model">honey.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_commission_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No commissions found!
+            </p>
+            <p>
+                Commissions are automatically created when orders are confirmed and QR delivery is confirmed.
+            </p>
+        </field>
+    </record>
+
+    <!-- Commission Rules -->
+    <record id="view_commission_rule_form" model="ir.ui.view">
+        <field name="name">honey.commission.rule.form</field>
+        <field name="model">honey.commission.rule</field>
+        <field name="arch" type="xml">
+            <form string="Commission Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Rule Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="region_id"/>
+                            <field name="agent_id"/>
+                            <field name="customer_type"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="base_commission_rate"/>
+                            <field name="min_amount"/>
+                            <field name="max_amount"/>
+                        </group>
+                        <group>
+                            <field name="bonus_rate"/>
+                            <field name="bonus_threshold"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_commission_rule_tree" model="ir.ui.view">
+        <field name="name">honey.commission.rule.tree</field>
+        <field name="model">honey.commission.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Commission Rules">
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="region_id"/>
+                <field name="agent_id"/>
+                <field name="customer_type"/>
+                <field name="base_commission_rate"/>
+                <field name="bonus_rate"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_commission_rule" model="ir.actions.act_window">
+        <field name="name">Commission Rules</field>
+        <field name="res_model">honey.commission.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first commission rule!
+            </p>
+            <p>
+                Commission rules define how commissions are calculated for different agents, regions, and customer types.
+            </p>
+        </field>
+    </record>
+</odoo>

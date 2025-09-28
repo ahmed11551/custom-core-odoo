@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_shipment_director,honey.shipment.director,model_honey_shipment,group_honey_director,1,1,1,1
+access_honey_shipment_logistics,honey.shipment.logistics,model_honey_shipment,group_honey_logistics,1,1,1,0
+access_honey_packaging_director,honey.packaging.director,model_honey_packaging,group_honey_director,1,1,1,1
+access_honey_packaging_logistics,honey.packaging.logistics,model_honey_packaging,group_honey_logistics,1,1,1,0
+access_honey_qr_confirmation_director,honey.qr.confirmation.director,model_honey_qr_confirmation,group_honey_director,1,1,1,1
+access_honey_qr_confirmation_logistics,honey.qr.confirmation.logistics,model_honey_qr_confirmation,group_honey_logistics,1,1,1,0
+access_honey_qr_scanner_director,honey.qr.scanner.director,model_honey_qr_scanner,group_honey_director,1,1,1,1
+access_honey_qr_scanner_logistics,honey.qr.scanner.logistics,model_honey_qr_scanner,group_honey_logistics,1,1,1,0
+access_honey_qr_report_director,honey.qr.report.director,model_honey_qr_report,group_honey_director,1,0,0,0
+access_honey_qr_report_logistics,honey.qr.report.logistics,model_honey_qr_report,group_honey_logistics,1,0,0,0
+access_honey_return_request_director,honey.return.request.director,model_honey_return_request,group_honey_director,1,1,1,1
+access_honey_return_request_logistics,honey.return.request.logistics,model_honey_return_request,group_honey_logistics,1,1,1,0
+access_honey_return_line_director,honey.return.line.director,model_honey_return_line,group_honey_director,1,1,1,1
+access_honey_return_line_logistics,honey.return.line.logistics,model_honey_return_line,group_honey_logistics,1,1,1,0
+access_honey_return_policy_director,honey.return.policy.director,model_honey_return_policy,group_honey_director,1,1,1,1
+access_honey_return_policy_logistics,honey.return.policy.logistics,model_honey_return_policy,group_honey_logistics,1,1,1,0

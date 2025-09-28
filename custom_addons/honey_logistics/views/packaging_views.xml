@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_packaging_form" model="ir.ui.view">
+        <field name="name">honey.packaging.form</field>
+        <field name="model">honey.packaging</field>
+        <field name="arch" type="xml">
+            <form string="Packaging">
+                <header>
+                    <button name="action_pack" type="object" string="Pack" class="btn-primary" states="draft"/>
+                    <field name="packed" widget="statusbar" statusbar_visible="packed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="shipment_id"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="package_type"/>
+                            <field name="package_size"/>
+                            <field name="honey_type"/>
+                            <field name="quality_grade"/>
+                        </group>
+                        <group>
+                            <field name="boxes_count"/>
+                            <field name="sticks_count"/>
+                            <field name="displays_count"/>
+                            <field name="batch_numbers"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="box_material"/>
+                            <field name="label_template"/>
+                        </group>
+                        <group>
+                            <field name="weight"/>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="height"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="packed_by" readonly="1"/>
+                        <field name="packed_date" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_packaging_tree" model="ir.ui.view">
+        <field name="name">honey.packaging.tree</field>
+        <field name="model">honey.packaging</field>
+        <field name="arch" type="xml">
+            <tree string="Packaging">
+                <field name="shipment_id"/>
+                <field name="package_type"/>
+                <field name="package_size"/>
+                <field name="boxes_count"/>
+                <field name="sticks_count"/>
+                <field name="honey_type"/>
+                <field name="quality_grade"/>
+                <field name="packed" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_packaging" model="ir.actions.act_window">
+        <field name="name">Packaging</field>
+        <field name="res_model">honey.packaging</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

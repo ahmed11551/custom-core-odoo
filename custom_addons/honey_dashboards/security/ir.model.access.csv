@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_dashboard_data_director,honey.dashboard.data.director,model_honey_dashboard_data,group_honey_director,1,0,0,0
+access_honey_dashboard_data_manager,honey.dashboard.data.manager,model_honey_dashboard_data,group_honey_manager,1,0,0,0
+access_honey_dashboard_data_agent,honey.dashboard.data.agent,model_honey_dashboard_data,group_honey_agent,1,0,0,0
+access_honey_dashboard_data_production,honey.dashboard.data.production,model_honey_dashboard_data,group_honey_production,1,0,0,0
+access_honey_dashboard_data_logistics,honey.dashboard.data.logistics,model_honey_logistics,1,0,0,0

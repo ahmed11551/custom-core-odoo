@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_agent_dashboard" model="ir.ui.view">
+        <field name="name">Sales Agent Dashboard</field>
+        <field name="model">honey.dashboard.data</field>
+        <field name="arch" type="xml">
+            <dashboard string="Agent Dashboard">
+                <view type="grid" colspan="12">
+                    <!-- Personal Performance -->
+                    <group>
+                        <group>
+                            <aggregate name="my_sales" string="My Sales (Month)" field="amount_total" domain="[('honey_agent_id.user_id', '=', user.id), ('date_order', '>=', datetime.datetime.now().strftime('%Y-%m-01')), ('state', 'in', ['sale', 'done'])]" widget="monetary"/>
+                            <aggregate name="my_commission" string="My Commission" field="amount" domain="[('agent_id.user_id', '=', user.id), ('date', '>=', datetime.datetime.now().strftime('%Y-%m-01')), ('state', 'in', ['confirmed', 'paid'])]" widget="monetary"/>
+                        </group>
+                        <group>
+                            <aggregate name="my_customers" string="My Customers" field="id" domain="[('honey_agent_id.user_id', '=', user.id), ('is_company', '=', True)]" widget="number"/>
+                            <aggregate name="target_achievement" string="Target Achievement %" field="target_achievement" domain="[('user_id', '=', user.id)]" widget="percentage"/>
+                        </group>
+                    </group>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="sales_trend" widget="line" string="Sales Trend"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="commission_history" widget="bar" string="Commission History"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="my_customers_priority" string="My Customers (Priority)"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="my_orders" string="My Orders"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="contact_plan" string="Contact Plan"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="quick_actions" string="Quick Actions"/>
+                </view>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="action_agent_dashboard" model="ir.actions.act_window">
+        <field name="name">Agent Dashboard</field>
+        <field name="res_model">honey.dashboard.data</field>
+        <field name="view_mode">dashboard</field>
+        <field name="view_id" ref="view_agent_dashboard"/>
+        <field name="target">current</field>
+        <field name="context">{'dashboard_data': True}</field>
+    </record>
+</odoo>

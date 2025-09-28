@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_return_request_form" model="ir.ui.view">
+        <field name="name">honey.return.request.form</field>
+        <field name="model">honey.return.request</field>
+        <field name="arch" type="xml">
+            <form string="Return Request">
+                <header>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary" states="draft"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" states="submitted"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-secondary" states="submitted"/>
+                    <button name="action_process" type="object" string="Process" class="btn-primary" states="approved"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-primary" states="processed"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" states="draft,submitted,approved,processed"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,processed,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="shipment_id"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="return_date"/>
+                            <field name="return_reason"/>
+                            <field name="other_reason"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="total_quantity" readonly="1"/>
+                            <field name="total_value" readonly="1"/>
+                            <field name="commission_adjustment" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="refund_amount"/>
+                            <field name="refund_method"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Return Lines" name="return_lines">
+                            <field name="return_line_ids">
+                                <tree>
+                                    <field name="product_name"/>
+                                    <field name="honey_type"/>
+                                    <field name="batch_number"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="value"/>
+                                    <field name="quality_grade"/>
+                                    <field name="return_condition"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Approval" name="approval">
+                            <group>
+                                <group>
+                                    <field name="approved_by" readonly="1"/>
+                                    <field name="approval_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="rejection_reason"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Processing" name="processing">
+                            <group>
+                                <group>
+                                    <field name="processed_by" readonly="1"/>
+                                    <field name="processing_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                            <field name="customer_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_return_request_tree" model="ir.ui.view">
+        <field name="name">honey.return.request.tree</field>
+        <field name="model">honey.return.request</field>
+        <field name="arch" type="xml">
+            <tree string="Return Requests">
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="customer_id"/>
+                <field name="return_date"/>
+                <field name="return_reason"/>
+                <field name="total_value"/>
+                <field name="refund_amount"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'" decoration-info="state == 'processed'" decoration-warning="state == 'approved'" decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_return_request_search" model="ir.ui.view">
+        <field name="name">honey.return.request.search</field>
+        <field name="model">honey.return.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Return Requests">
+                <field name="name"/>
+                <field name="shipment_id"/>
+                <field name="customer_id"/>
+                <field name="return_reason"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="Processed" name="processed" domain="[('state', '=', 'processed')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="This Month" name="this_month" domain="[('return_date', '>=', datetime.datetime.now().strftime('%Y-%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Return Reason" name="group_reason" context="{'group_by': 'return_reason'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Return Date" name="group_date" context="{'group_by': 'return_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_return_request" model="ir.actions.act_window">
+        <field name="name">Return Requests</field>
+        <field name="res_model">honey.return.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_return_request_search"/>
+    </record>
+
+    <!-- Return Policy Views -->
+    <record id="view_return_policy_form" model="ir.ui.view">
+        <field name="name">honey.return.policy.form</field>
+        <field name="model">honey.return.policy</field>
+        <field name="arch" type="xml">
+            <form string="Return Policy">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="return_period_days"/>
+                            <field name="customer_types"/>
+                            <field name="honey_types"/>
+                            <field name="allowed_reasons"/>
+                        </group>
+                        <group>
+                            <field name="refund_percentage"/>
+                            <field name="effective_date"/>
+                            <field name="expiry_date"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="require_approval"/>
+                            <field name="require_photos"/>
+                            <field name="require_batch_verification"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_return_policy_tree" model="ir.ui.view">
+        <field name="name">honey.return.policy.tree</field>
+        <field name="model">honey.return.policy</field>
+        <field name="arch" type="xml">
+            <tree string="Return Policies">
+                <field name="name"/>
+                <field name="return_period_days"/>
+                <field name="customer_types"/>
+                <field name="refund_percentage"/>
+                <field name="effective_date"/>
+                <field name="expiry_date"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_return_policy" model="ir.actions.act_window">
+        <field name="name">Return Policies</field>
+        <field name="res_model">honey.return.policy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

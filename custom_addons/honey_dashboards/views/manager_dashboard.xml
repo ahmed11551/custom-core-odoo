@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_manager_dashboard" model="ir.ui.view">
+        <field name="name">Sales Manager Dashboard</field>
+        <field name="model">honey.dashboard.data</field>
+        <field name="arch" type="xml">
+            <dashboard string="Manager Dashboard">
+                <view type="grid" colspan="12">
+                    <!-- Regional Overview -->
+                    <group>
+                        <group>
+                            <aggregate name="regional_sales" string="Regional Sales" field="amount_total" domain="[('honey_region_id.manager_id', '=', user.id), ('date_order', '>=', datetime.datetime.now().strftime('%Y-%m-01')), ('state', 'in', ['sale', 'done'])]" widget="monetary"/>
+                            <aggregate name="plan_deviation" string="Plan Deviation %" field="amount_total" domain="[('honey_region_id.manager_id', '=', user.id)]" widget="percentage"/>
+                        </group>
+                        <group>
+                            <aggregate name="total_agents" string="Total Agents" field="id" domain="[('region_id.manager_id', '=', user.id)]" widget="number"/>
+                            <aggregate name="total_customers" string="Total Customers" field="id" domain="[('honey_region_id.manager_id', '=', user.id), ('is_company', '=', True)]" widget="number"/>
+                        </group>
+                    </group>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="weekly_sales" widget="line" string="Weekly Sales Trend"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="agent_performance" widget="bar" string="Agent Performance"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="customers_without_agent" string="Customers without Agent"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="order_statuses" string="Order Statuses"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="marketing_campaigns" widget="bar" string="Marketing Campaigns"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="notifications" string="Notifications"/>
+                </view>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="action_manager_dashboard" model="ir.actions.act_window">
+        <field name="name">Manager Dashboard</field>
+        <field name="res_model">honey.dashboard.data</field>
+        <field name="view_mode">dashboard</field>
+        <field name="view_id" ref="view_manager_dashboard"/>
+        <field name="target">current</field>
+        <field name="context">{'dashboard_data': True}</field>
+    </record>
+</odoo>

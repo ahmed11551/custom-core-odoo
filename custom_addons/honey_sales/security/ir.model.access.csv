@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_commission_report_director,honey.commission.report.director,model_honey_commission_report,group_honey_director,1,0,0,0
+access_honey_commission_report_manager,honey.commission.report.manager,model_honey_commission_report,group_honey_manager,1,0,0,0
+access_honey_commission_report_agent,honey.commission.report.agent,model_honey_commission_report,group_honey_agent,1,0,0,0

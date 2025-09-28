@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_region_form" model="ir.ui.view">
+        <field name="name">honey.region.form</field>
+        <field name="model">honey.region</field>
+        <field name="arch" type="xml">
+            <form string="Region">
+                <header>
+                    <button name="action_view_agents" type="object" string="View Agents" class="btn-primary"/>
+                    <button name="action_view_customers" type="object" string="View Customers" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Region Name"/>
+                        </h1>
+                        <h2>
+                            <field name="code" placeholder="REG"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="manager_id"/>
+                            <field name="sales_target"/>
+                            <field name="commission_rate"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Agents" name="agents">
+                            <field name="agent_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="user_id"/>
+                                    <field name="monthly_target"/>
+                                    <field name="commission_rate"/>
+                                    <field name="current_month_sales"/>
+                                    <field name="target_achievement"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Customers" name="customers">
+                            <field name="customer_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="honey_customer_type"/>
+                                    <field name="honey_agent_id"/>
+                                    <field name="honey_status"/>
+                                    <field name="last_contact_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_region_tree" model="ir.ui.view">
+        <field name="name">honey.region.tree</field>
+        <field name="model">honey.region</field>
+        <field name="arch" type="xml">
+            <tree string="Regions">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="manager_id"/>
+                <field name="sales_target"/>
+                <field name="commission_rate"/>
+                <field name="agent_ids" widget="badge" decoration-info="agent_ids"/>
+                <field name="customer_ids" widget="badge" decoration-success="customer_ids"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_region_search" model="ir.ui.view">
+        <field name="name">honey.region.search</field>
+        <field name="model">honey.region</field>
+        <field name="arch" type="xml">
+            <search string="Search Regions">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="manager_id"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Manager" name="group_manager" context="{'group_by': 'manager_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_region" model="ir.actions.act_window">
+        <field name="name">Regions</field>
+        <field name="res_model">honey.region</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_region_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first region!
+            </p>
+            <p>
+                Regions help organize your sales territories and manage agents.
+            </p>
+        </field>
+    </record>
+</odoo>

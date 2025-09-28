@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_honey_region_director,honey.region.director,model_honey_region,group_honey_director,1,1,1,1
+access_honey_region_manager,honey.region.manager,model_honey_region,group_honey_manager,1,0,0,0
+access_honey_region_user,honey.region.user,model_honey_region,group_honey_user,1,0,0,0
+access_honey_agent_director,honey.agent.director,model_honey_agent,group_honey_director,1,1,1,1
+access_honey_agent_manager,honey.agent.manager,model_honey_agent,group_honey_manager,1,1,1,0
+access_honey_agent_agent,honey.agent.agent,model_honey_agent,group_honey_agent,1,0,0,0
+access_honey_commission_director,honey.commission.director,model_honey_commission,group_honey_director,1,1,1,1
+access_honey_commission_manager,honey.commission.manager,model_honey_commission,group_honey_manager,1,0,0,0
+access_honey_commission_agent,honey.commission.agent,model_honey_commission,group_honey_agent,1,0,0,0
+access_honey_commission_rule_director,honey.commission.rule.director,model_honey_commission_rule,group_honey_director,1,1,1,1
+access_honey_region_history_director,honey.region.history.director,model_honey_region_history,group_honey_director,1,0,0,0
+access_honey_region_history_manager,honey.region.history.manager,model_honey_region_history,group_honey_manager,1,0,0,0
+access_honey_agent_history_director,honey.agent.history.director,model_honey_agent_history,group_honey_director,1,0,0,0
+access_honey_agent_history_manager,honey.agent.history.manager,model_honey_agent_history,group_honey_manager,1,0,0,0

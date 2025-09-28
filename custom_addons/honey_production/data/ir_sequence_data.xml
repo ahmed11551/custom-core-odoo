@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_honey_production_batch" model="ir.sequence">
+        <field name="name">Honey Production Batch</field>
+        <field name="code">honey.production.batch</field>
+        <field name="prefix">BATCH</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+    </record>
+
+    <record id="seq_honey_time_tracking" model="ir.sequence">
+        <field name="name">Honey Time Tracking</field>
+        <field name="code">honey.time.tracking</field>
+        <field name="prefix">TIME</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+    </record>
+
+    <record id="seq_honey_quality_control" model="ir.sequence">
+        <field name="name">Honey Quality Control</field>
+        <field name="code">honey.quality.control</field>
+        <field name="prefix">QC</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+    </record>
+
+    <record id="seq_honey_material_movement" model="ir.sequence">
+        <field name="name">Honey Material Movement</field>
+        <field name="code">honey.material.movement</field>
+        <field name="prefix">MOV</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+    </record>
+</odoo>

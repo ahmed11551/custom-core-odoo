@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Groups -->
+    <record id="group_honey_director" model="res.groups">
+        <field name="name">Honey Director</field>
+        <field name="category_id" ref="base.module_category_administration"/>
+        <field name="implied_ids" eval="[(4, ref('group_honey_manager'))]"/>
+    </record>
+
+    <record id="group_honey_manager" model="res.groups">
+        <field name="name">Honey Manager</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_honey_agent'))]"/>
+    </record>
+
+    <record id="group_honey_agent" model="res.groups">
+        <field name="name">Honey Agent</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+    </record>
+
+    <record id="group_honey_production" model="res.groups">
+        <field name="name">Honey Production</field>
+        <field name="category_id" ref="base.module_category_manufacturing"/>
+    </record>
+
+    <record id="group_honey_logistics" model="res.groups">
+        <field name="name">Honey Logistics</field>
+        <field name="category_id" ref="base.module_category_inventory"/>
+    </record>
+
+    <record id="group_honey_user" model="res.groups">
+        <field name="name">Honey User</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+    </record>
+
+    <!-- Record Rules -->
+    <record id="region_rule_director" model="ir.rule">
+        <field name="name">Honey Region: Director Access</field>
+        <field name="model_id" ref="model_honey_region"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="region_rule_manager" model="ir.rule">
+        <field name="name">Honey Region: Manager Access</field>
+        <field name="model_id" ref="model_honey_region"/>
+        <field name="domain_force">[('manager_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="agent_rule_director" model="ir.rule">
+        <field name="name">Honey Agent: Director Access</field>
+        <field name="model_id" ref="model_honey_agent"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="agent_rule_manager" model="ir.rule">
+        <field name="name">Honey Agent: Manager Access</field>
+        <field name="model_id" ref="model_honey_agent"/>
+        <field name="domain_force">[('region_id.manager_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="agent_rule_agent" model="ir.rule">
+        <field name="name">Honey Agent: Agent Access</field>
+        <field name="model_id" ref="model_honey_agent"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_agent'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="commission_rule_director" model="ir.rule">
+        <field name="name">Honey Commission: Director Access</field>
+        <field name="model_id" ref="model_honey_commission"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="commission_rule_manager" model="ir.rule">
+        <field name="name">Honey Commission: Manager Access</field>
+        <field name="model_id" ref="model_honey_commission"/>
+        <field name="domain_force">[('agent_id.region_id.manager_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="commission_rule_agent" model="ir.rule">
+        <field name="name">Honey Commission: Agent Access</field>
+        <field name="model_id" ref="model_honey_commission"/>
+        <field name="domain_force">[('agent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_agent'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Partner rules for honey fields -->
+    <record id="partner_rule_honey_director" model="ir.rule">
+        <field name="name">Partner Honey: Director Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_director'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="partner_rule_honey_manager" model="ir.rule">
+        <field name="name">Partner Honey: Manager Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[('honey_region_id.manager_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="partner_rule_honey_agent" model="ir.rule">
+        <field name="name">Partner Honey: Agent Access</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[('honey_agent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_honey_agent'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

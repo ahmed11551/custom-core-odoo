@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main menu -->
+    <menuitem id="menu_honey_main" name="Honey Sticks" sequence="10"/>
+
+    <!-- Participants menu -->
+    <menuitem id="menu_honey_participants" name="Participants" parent="menu_honey_main" sequence="10"/>
+
+    <!-- Regions submenu -->
+    <menuitem id="menu_honey_regions" name="Regions" parent="menu_honey_participants" action="action_region" sequence="10"/>
+
+    <!-- Agents submenu -->
+    <menuitem id="menu_honey_agents" name="Agents" parent="menu_honey_participants" action="action_agent" sequence="20"/>
+
+    <!-- Customers submenu -->
+    <menuitem id="menu_honey_customers" name="Customers" parent="menu_honey_participants" action="action_honey_customers" sequence="30"/>
+
+    <!-- Commissions submenu -->
+    <menuitem id="menu_honey_commissions" name="Commissions" parent="menu_honey_participants" action="action_commission" sequence="40"/>
+
+    <!-- Commission Rules submenu -->
+    <menuitem id="menu_honey_commission_rules" name="Commission Rules" parent="menu_honey_participants" action="action_commission_rule" sequence="50"/>
+
+    <!-- Sales menu -->
+    <menuitem id="menu_honey_sales" name="Sales" parent="menu_honey_main" sequence="20"/>
+
+    <!-- Production menu -->
+    <menuitem id="menu_honey_production" name="Production" parent="menu_honey_main" sequence="30"/>
+
+    <!-- Logistics menu -->
+    <menuitem id="menu_honey_logistics" name="Logistics" parent="menu_honey_main" sequence="40"/>
+
+    <!-- Marketing menu -->
+    <menuitem id="menu_honey_marketing" name="Marketing" parent="menu_honey_main" sequence="50"/>
+
+    <!-- Finance menu -->
+    <menuitem id="menu_honey_finance" name="Finance" parent="menu_honey_main" sequence="60"/>
+
+    <!-- Reports menu -->
+    <menuitem id="menu_honey_reports" name="Reports" parent="menu_honey_main" sequence="70"/>
+
+    <!-- Settings menu -->
+    <menuitem id="menu_honey_settings" name="Settings" parent="menu_honey_main" sequence="80"/>
+</odoo>

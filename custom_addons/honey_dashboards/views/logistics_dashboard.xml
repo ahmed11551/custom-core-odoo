@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_logistics_dashboard" model="ir.ui.view">
+        <field name="name">Logistics Dashboard</field>
+        <field name="model">honey.dashboard.data</field>
+        <field name="arch" type="xml">
+            <dashboard string="Logistics Dashboard">
+                <view type="grid" colspan="12">
+                    <!-- Logistics Overview -->
+                    <group>
+                        <group>
+                            <aggregate name="today_shipments" string="Today's Shipments" field="id" domain="[('shipment_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d')), ('shipment_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]" widget="number"/>
+                            <aggregate name="week_shipments" string="Week's Shipments" field="id" domain="[('shipment_date', '>=', (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).strftime('%Y-%m-%d')), ('shipment_date', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=7-datetime.datetime.now().weekday())).strftime('%Y-%m-%d'))]" widget="number"/>
+                        </group>
+                        <group>
+                            <aggregate name="ready_to_ship" string="Ready to Ship" field="id" domain="[('state', '=', 'ready')]" widget="number"/>
+                            <aggregate name="packed" string="Packed" field="id" domain="[('state', '=', 'packed')]" widget="number"/>
+                        </group>
+                    </group>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="shipment_status" widget="pie" string="Shipment Status"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="qr_confirmations" widget="bar" string="QR Confirmations"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="packaging_progress" string="Packaging Progress"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="carrier_assignment" string="Carrier Assignment"/>
+                </view>
+                
+                <view type="graph" colspan="6">
+                    <field name="tracking_status" widget="line" string="Tracking Status"/>
+                </view>
+                
+                <view type="list" colspan="6">
+                    <field name="returns_processing" string="Returns Processing"/>
+                </view>
+                
+                <view type="graph" colspan="12">
+                    <field name="logistics_kpi" widget="bar" string="Logistics KPI"/>
+                </view>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="action_logistics_dashboard" model="ir.actions.act_window">
+        <field name="name">Logistics Dashboard</field>
+        <field name="res_model">honey.dashboard.data</field>
+        <field name="view_mode">dashboard</field>
+        <field name="view_id" ref="view_logistics_dashboard"/>
+        <field name="target">current</field>
+        <field name="context">{'dashboard_data': True}</field>
+    </record>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboards menu -->
+    <menuitem id="menu_honey_dashboards" name="Dashboards" parent="menu_honey_main" sequence="5"/>
+    
+    <!-- Role-based dashboards -->
+    <menuitem id="menu_director_dashboard" name="Director Dashboard" parent="menu_honey_dashboards" action="action_director_dashboard" sequence="10" groups="honey_participants.group_honey_director"/>
+    <menuitem id="menu_manager_dashboard" name="Manager Dashboard" parent="menu_honey_dashboards" action="action_manager_dashboard" sequence="20" groups="honey_participants.group_honey_manager"/>
+    <menuitem id="menu_agent_dashboard" name="Agent Dashboard" parent="menu_honey_dashboards" action="action_agent_dashboard" sequence="30" groups="honey_participants.group_honey_agent"/>
+    <menuitem id="menu_production_dashboard" name="Production Dashboard" parent="menu_honey_dashboards" action="action_production_dashboard" sequence="40" groups="honey_participants.group_honey_production"/>
+    <menuitem id="menu_logistics_dashboard" name="Logistics Dashboard" parent="menu_honey_dashboards" action="action_logistics_dashboard" sequence="50" groups="honey_participants.group_honey_logistics"/>
+</odoo>

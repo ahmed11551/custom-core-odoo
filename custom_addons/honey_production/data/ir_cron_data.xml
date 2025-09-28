@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron job to check material availability for planned batches -->
+    <record id="ir_cron_check_material_availability" model="ir.cron">
+        <field name="name">Check Material Availability</field>
+        <field name="model_id" ref="model_honey_production_batch"/>
+        <field name="state">code</field>
+        <field name="code">model.action_check_materials()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Cron job to update production efficiency metrics -->
+    <record id="ir_cron_update_efficiency" model="ir.cron">
+        <field name="name">Update Production Efficiency</field>
+        <field name="model_id" ref="model_honey_shift_planning"/>
+        <field name="state">code</field>
+        <field name="code">model._compute_efficiency()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

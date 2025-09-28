@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend partner form view -->
+    <record id="view_partner_form_honey" model="ir.ui.view">
+        <field name="name">res.partner.form.honey</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Honey Sticks" name="honey_sticks" groups="honey_participants.group_honey_user">
+                    <group>
+                        <group>
+                            <field name="honey_region_id"/>
+                            <field name="honey_agent_id"/>
+                            <field name="honey_customer_type"/>
+                            <field name="honey_status"/>
+                        </group>
+                        <group>
+                            <field name="preferred_contact_method"/>
+                            <field name="last_contact_date"/>
+                            <field name="next_contact_date"/>
+                            <field name="honey_credit_limit"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="honey_sales_target"/>
+                        <field name="contact_notes"/>
+                    </group>
+                    <notebook>
+                        <page string="Region History" name="region_history">
+                            <field name="region_history_ids" readonly="1">
+                                <tree>
+                                    <field name="change_date"/>
+                                    <field name="old_region_id"/>
+                                    <field name="new_region_id"/>
+                                    <field name="change_reason"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Agent History" name="agent_history">
+                            <field name="agent_history_ids" readonly="1">
+                                <tree>
+                                    <field name="change_date"/>
+                                    <field name="old_agent_id"/>
+                                    <field name="new_agent_id"/>
+                                    <field name="change_reason"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend partner tree view -->
+    <record id="view_partner_tree_honey" model="ir.ui.view">
+        <field name="name">res.partner.tree.honey</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="honey_region_id" optional="show"/>
+                <field name="honey_agent_id" optional="show"/>
+                <field name="honey_customer_type" optional="show"/>
+                <field name="honey_status" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Search view for honey customers -->
+    <record id="view_partner_search_honey" model="ir.ui.view">
+        <field name="name">res.partner.search.honey</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='supplier']" position="after">
+                <filter string="Honey Customers" name="honey_customers" domain="[('is_company', '=', True), ('honey_region_id', '!=', False)]"/>
+                <separator/>
+                <filter string="By Region" name="group_region" context="{'group_by': 'honey_region_id'}"/>
+                <filter string="By Agent" name="group_agent" context="{'group_by': 'honey_agent_id'}"/>
+                <filter string="By Customer Type" name="group_customer_type" context="{'group_by': 'honey_customer_type'}"/>
+                <filter string="By Status" name="group_status" context="{'group_by': 'honey_status'}"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="honey_region_id"/>
+                <field name="honey_agent_id"/>
+                <field name="honey_customer_type"/>
+                <field name="honey_status"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for honey customers -->
+    <record id="action_honey_customers" model="ir.actions.act_window">
+        <field name="name">Honey Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_company', '=', True), ('honey_region_id', '!=', False)]</field>
+        <field name="search_view_id" ref="view_partner_search_honey"/>
+        <field name="context">{'search_default_honey_customers': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first customer!
+            </p>
+            <p>
+                Customers are managed by regions and assigned to sales agents.
+            </p>
+        </field>
+    </record>
+</odoo>
